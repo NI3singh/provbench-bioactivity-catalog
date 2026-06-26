@@ -1,0 +1,51 @@
+{
+  "name": "provbench-egfr-bioactivity",
+  "version": "1.0.0",
+  "created_at": "2026-06-26",
+  "target": {
+    "chembl_id": "CHEMBL203",
+    "uniprot": "P00533",
+    "pref_name": "Epidermal growth factor receptor erbB1",
+    "organism": "Homo sapiens"
+  },
+  "n_compounds": 15507,
+  "n_consensus_records": 11107,
+  "n_source_records": 28689,
+  "sources": [
+    "BindingDB Patent Bioactivity Data",
+    "Chemical Probe data from Scientific Literature",
+    "DrugMatrix",
+    "EUbOPEN Chemogenomic Library Literature Data",
+    "PubChem BioAssays",
+    "SGC Frankfurt - Donated Chemical Probes",
+    "Scientific Literature",
+    "SureChEMBL Patent Bioactivity Data"
+  ],
+  "license": "CC-BY-SA-3.0",
+  "sha256_consensus": "0c0004e07546fd2d5819ea0bdc04f97c28237cde880fb95f150a18db7ee3aee4",
+  "hf_url": "https://huggingface.co/datasets/NI3singh/provbench-egfr-bioactivity",
+  "croissant_url": "https://huggingface.co/api/datasets/NI3singh/provbench-egfr-bioactivity/croissant",
+  "qc": {
+    "minimal": {
+      "n_pairs": 20398,
+      "kendall_tau": 0.3716,
+      "frac_gt_03": 0.6844,
+      "frac_gt_10": 0.3745,
+      "mae_log": 0.9483
+    },
+    "maximal": {
+      "n_pairs": 13255,
+      "kendall_tau": 0.401,
+      "frac_gt_03": 0.6611,
+      "frac_gt_10": 0.3442,
+      "mae_log": 0.883
+    },
+    "cross_source": {
+      "n_pairs": 1993,
+      "kendall_tau": 0.2854,
+      "frac_gt_03": 0.7341,
+      "frac_gt_10": 0.4305,
+      "mae_log": 1.0506
+    }
+  }
+}

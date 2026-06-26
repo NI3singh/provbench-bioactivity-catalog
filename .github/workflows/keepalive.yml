@@ -1,0 +1,21 @@
+## Keeps the free-tier API warm and the Supabase project from auto-pausing.
+## Pings the API /health a few times a week. Set the API_URL repo variable
+## (Settings -> Secrets and variables -> Actions -> Variables) to your Render API URL.
+name: keep-alive
+
+on:
+  schedule:
+    - cron: "0 */3 * * *" # every 3 hours
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API health + warm a query
+        run: |
+          BASE="${{ vars.API_URL }}"
+          if [ -z "$BASE" ]; then echo "Set the API_URL repo variable"; exit 0; fi
+          curl -fsS "$BASE/health" || true
+          curl -fsS "$BASE/api/stats" >/dev/null || true
+          echo "pinged $BASE"

@@ -1,0 +1,17 @@
+# ProvBench offline pipeline (runs locally, Python 3.13 venv).
+# Versions intentionally unpinned for the first install; run `pip freeze > requirements.lock.txt`
+# after a successful install to capture the exact resolved set.
+rdkit
+chembl_webresource_client
+requests
+pandas
+numpy
+scipy
+mlcroissant
+prov
+lxml
+psycopg[binary]
+datasets
+huggingface_hub
+python-dotenv
+tqdm

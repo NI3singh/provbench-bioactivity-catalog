@@ -1,0 +1,23 @@
+{
+  "minimal": {
+    "n_pairs": 20398,
+    "kendall_tau": 0.3716,
+    "frac_gt_03": 0.6844,
+    "frac_gt_10": 0.3745,
+    "mae_log": 0.9483
+  },
+  "maximal": {
+    "n_pairs": 13255,
+    "kendall_tau": 0.401,
+    "frac_gt_03": 0.6611,
+    "frac_gt_10": 0.3442,
+    "mae_log": 0.883
+  },
+  "cross_source": {
+    "n_pairs": 1993,
+    "kendall_tau": 0.2854,
+    "frac_gt_03": 0.7341,
+    "frac_gt_10": 0.4305,
+    "mae_log": 1.0506
+  }
+}

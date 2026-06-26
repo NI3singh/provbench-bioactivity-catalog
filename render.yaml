@@ -1,0 +1,47 @@
+# ProvBench — Render Blueprint (free tier).
+# One static site (frontend, always-on) + one web service (thin FastAPI).
+# Deploy: Render Dashboard -> New -> Blueprint -> connect this repo.
+# Then set the two secret env vars (SUPABASE_DB_URL, GEMINI_API_KEY) in the dashboard.
+
+services:
+  # ---- Frontend: static site (free, no cold start) ----
+  - type: web
+    name: provbench-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    pullRequestPreviewsEnabled: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # bare hostname of the API service; the frontend adds the https:// scheme.
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: provbench-api
+          property: host
+
+  # ---- Backend: thin read-only FastAPI + guarded Gemini endpoint ----
+  - type: web
+    name: provbench-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: DEFAULT_TARGET
+        value: P00533
+      # Use the Supabase *Transaction* pooler string (port 6543) here. Set in dashboard.
+      - key: SUPABASE_DB_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://provbench-web.onrender.com

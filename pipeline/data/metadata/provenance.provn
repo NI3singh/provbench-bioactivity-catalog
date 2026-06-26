@@ -1,0 +1,25 @@
+document
+  prefix pb <https://github.com/NI3singh/provbench-bioactivity-catalog#>
+  prefix chembl <https://www.ebi.ac.uk/chembl/>
+  
+  agent(pb:pipeline, [prov:type="prov:SoftwareAgent", prov:label="ProvBench curation pipeline"])
+  entity(chembl:EGFR-activities, [prov:label="ChEMBL EGFR IC50/Ki activities", pb:upstreamSources="BindingDB Patent Bioactivity Data, Chemical Probe data from Scientific Literature, DrugMatrix, EUbOPEN Chemogenomic Library Literature Data, PubChem BioAssays, SGC Frankfurt - Donated Chemical Probes, Scientific Literature, SureChEMBL Patent Bioactivity Data"])
+  activity(pb:standardize, -, -, [prov:label="RDKit standardization + InChIKey"])
+  activity(pb:harmonize, -, -, [prov:label="units->nM, pActivity, consensus"])
+  activity(pb:flag, -, -, [prov:label="ChEMBL-style validity flagging"])
+  activity(pb:qc, -, -, [prov:label="Landrum-Riniker QC report"])
+  entity(pb:standardized, [prov:label="Standardized source records"])
+  entity(pb:consensus, [prov:label="Consensus dataset", pb:version="1.0.0"])
+  wasAssociatedWith(pb:standardize, pb:pipeline, -)
+  wasAssociatedWith(pb:harmonize, pb:pipeline, -)
+  wasAssociatedWith(pb:flag, pb:pipeline, -)
+  wasAssociatedWith(pb:qc, pb:pipeline, -)
+  used(pb:standardize, chembl:EGFR-activities, -)
+  wasGeneratedBy(pb:standardized, pb:standardize, -)
+  used(pb:harmonize, pb:standardized, -)
+  wasGeneratedBy(pb:consensus, pb:harmonize, -)
+  used(pb:flag, pb:standardized, -)
+  used(pb:qc, pb:consensus, -)
+  wasDerivedFrom(pb:standardized, chembl:EGFR-activities, -, -, -)
+  wasDerivedFrom(pb:consensus, pb:standardized, -, -, -)
+endDocument

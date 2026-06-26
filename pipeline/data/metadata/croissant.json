@@ -1,0 +1,256 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "equivalentProperty": "cr:equivalentProperty",
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "samplingRate": "cr:samplingRate",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@type": "sc:Dataset",
+  "name": "provbench-egfr-bioactivity",
+  "description": "Provenance-preserving, multi-source EGFR bioactivity catalog. Records that ChEMBL aggregated from multiple upstream sources are standardized (RDKit), joined on standard InChIKey, harmonized to a median-consensus pActivity while EVERY original measurement is preserved/link-tracked, and suspect values are flagged (not deleted). Includes a Landrum-Riniker QC report.",
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "citeAs": "Built on ChEMBL and the curation/QC methodology of Landrum & Riniker (2024, J. Chem. Inf. Model., DOI 10.1021/acs.jcim.4c00049).",
+  "datePublished": "2026-06-26",
+  "license": "CC-BY-SA-3.0",
+  "url": "https://huggingface.co/datasets/NI3singh/provbench-egfr-bioactivity",
+  "version": "1.0.0",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "consensus.csv",
+      "name": "consensus.csv",
+      "description": "Per compound/target consensus records (CSV).",
+      "contentSize": "1479642 B",
+      "contentUrl": "https://huggingface.co/datasets/NI3singh/provbench-egfr-bioactivity/resolve/main/consensus.csv",
+      "encodingFormat": "text/csv",
+      "sha256": "0c0004e07546fd2d5819ea0bdc04f97c28237cde880fb95f150a18db7ee3aee4"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "records",
+      "name": "records",
+      "description": "11107 consensus bioactivity records.",
+      "key": {
+        "@id": "records/inchikey"
+      },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "records/inchikey",
+          "name": "inchikey",
+          "description": "Standard InChIKey \u2014 the cross-source compound join key.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "inchikey"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/target_uniprot",
+          "name": "target_uniprot",
+          "description": "UniProt accession of the protein target.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "target_uniprot"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/std_smiles",
+          "name": "std_smiles",
+          "description": "RDKit-standardized canonical SMILES (parent, neutral, canonical tautomer).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "std_smiles"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/consensus_p_activity",
+          "name": "consensus_p_activity",
+          "description": "Median pActivity (-log10[M]) across exact measurements.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "consensus_p_activity"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/consensus_value_nm",
+          "name": "consensus_value_nm",
+          "description": "Consensus potency in nM.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "consensus_value_nm"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/n_records_used",
+          "name": "n_records_used",
+          "description": "Number of exact measurements feeding the consensus.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "n_records_used"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/n_sources",
+          "name": "n_sources",
+          "description": "Number of distinct upstream sources for this compound/target.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "n_sources"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/spread_log",
+          "name": "spread_log",
+          "description": "Max-min pActivity spread across measurements (log units).",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "spread_log"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "records/agreement",
+          "name": "agreement",
+          "description": "Agreement badge: strong / moderate / weak / single.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "consensus.csv"
+            },
+            "extract": {
+              "column": "agreement"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "prov:wasDerivedFrom": [
+    {
+      "@type": "prov:Entity",
+      "@id": "https://www.ebi.ac.uk/chembl",
+      "name": "ChEMBL",
+      "description": "Upstream sources present: BindingDB Patent Bioactivity Data, Chemical Probe data from Scientific Literature, DrugMatrix, EUbOPEN Chemogenomic Library Literature Data, PubChem BioAssays, SGC Frankfurt - Donated Chemical Probes, Scientific Literature, SureChEMBL Patent Bioactivity Data"
+    }
+  ],
+  "prov:wasGeneratedBy": {
+    "@type": "prov:Activity",
+    "@id": "https://github.com/NI3singh/provbench-bioactivity-catalog#curation-pipeline",
+    "name": "ProvBench curation pipeline (extract -> standardize -> harmonize -> flag -> QC)",
+    "prov:endedAtTime": "2026-06-26"
+  },
+  "cr:qualityReport": {
+    "minimal": {
+      "n_pairs": 20398,
+      "kendall_tau": 0.3716,
+      "frac_gt_03": 0.6844,
+      "frac_gt_10": 0.3745,
+      "mae_log": 0.9483
+    },
+    "maximal": {
+      "n_pairs": 13255,
+      "kendall_tau": 0.401,
+      "frac_gt_03": 0.6611,
+      "frac_gt_10": 0.3442,
+      "mae_log": 0.883
+    },
+    "cross_source": {
+      "n_pairs": 1993,
+      "kendall_tau": 0.2854,
+      "frac_gt_03": 0.7341,
+      "frac_gt_10": 0.4305,
+      "mae_log": 1.0506
+    }
+  }
+}
