@@ -38,8 +38,8 @@ services:
         value: "3.11.9"
       - key: DEFAULT_TARGET
         value: P00533
-      # Use the Supabase *Transaction* pooler string (port 6543) here. Set in dashboard.
-      - key: SUPABASE_DB_URL
+      # Postgres connection string (Neon recommended; include sslmode=require). Set in dashboard.
+      - key: DATABASE_URL
         sync: false
       - key: GEMINI_API_KEY
         sync: false

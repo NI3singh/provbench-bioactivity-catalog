@@ -3,6 +3,7 @@
 One place for the target, thresholds, source endpoints and dataset identity so that
 every stage (s1..s9) shares the same definitions and nothing is hard-coded twice.
 """
+import os
 from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────────
@@ -76,7 +77,9 @@ DATASET_VERSION = "1.0.0"
 # ChEMBL data is CC BY-SA 3.0; BindingDB is CC BY 3.0 — the combined derivative
 # inherits the more restrictive share-alike. Both sources attributed in the card.
 DATASET_LICENSE = "CC-BY-SA-3.0"
-HF_REPO_ID = "NI3singh/provbench-egfr-bioactivity"
+# HuggingFace namespace is the HF username (Ni3SinghR), which differs from the GitHub
+# username (NI3singh). Override with the HF_REPO_ID env var if needed.
+HF_REPO_ID = os.getenv("HF_REPO_ID", "Ni3SinghR/provbench-egfr-bioactivity")
 
 # ── ChEMBL DATA_VALIDITY_COMMENT controlled vocabulary (mirrored) ────────
 VALIDITY_OK = None

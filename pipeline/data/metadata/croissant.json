@@ -52,9 +52,9 @@
   "description": "Provenance-preserving, multi-source EGFR bioactivity catalog. Records that ChEMBL aggregated from multiple upstream sources are standardized (RDKit), joined on standard InChIKey, harmonized to a median-consensus pActivity while EVERY original measurement is preserved/link-tracked, and suspect values are flagged (not deleted). Includes a Landrum-Riniker QC report.",
   "conformsTo": "http://mlcommons.org/croissant/1.1",
   "citeAs": "Built on ChEMBL and the curation/QC methodology of Landrum & Riniker (2024, J. Chem. Inf. Model., DOI 10.1021/acs.jcim.4c00049).",
-  "datePublished": "2026-06-26",
+  "datePublished": "2026-06-29",
   "license": "CC-BY-SA-3.0",
-  "url": "https://huggingface.co/datasets/NI3singh/provbench-egfr-bioactivity",
+  "url": "https://huggingface.co/datasets/Ni3SinghR/provbench-egfr-bioactivity",
   "version": "1.0.0",
   "distribution": [
     {
@@ -63,7 +63,7 @@
       "name": "consensus.csv",
       "description": "Per compound/target consensus records (CSV).",
       "contentSize": "1479642 B",
-      "contentUrl": "https://huggingface.co/datasets/NI3singh/provbench-egfr-bioactivity/resolve/main/consensus.csv",
+      "contentUrl": "https://huggingface.co/datasets/Ni3SinghR/provbench-egfr-bioactivity/resolve/main/consensus.csv",
       "encodingFormat": "text/csv",
       "sha256": "0c0004e07546fd2d5819ea0bdc04f97c28237cde880fb95f150a18db7ee3aee4"
     }
@@ -228,7 +228,7 @@
     "@type": "prov:Activity",
     "@id": "https://github.com/NI3singh/provbench-bioactivity-catalog#curation-pipeline",
     "name": "ProvBench curation pipeline (extract -> standardize -> harmonize -> flag -> QC)",
-    "prov:endedAtTime": "2026-06-26"
+    "prov:endedAtTime": "2026-06-29"
   },
   "cr:qualityReport": {
     "minimal": {

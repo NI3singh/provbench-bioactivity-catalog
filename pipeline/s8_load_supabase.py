@@ -1,10 +1,9 @@
-"""s8 — load the curated tables into Supabase Postgres.
+"""s8 — load the curated tables into Postgres (Neon / Supabase / any).
 
 Runs schema.sql (drop + recreate), then bulk-loads each processed CSV with COPY
-(fast and idempotent). Reads SUPABASE_DB_URL from .env.
+(fast and idempotent). Reads DATABASE_URL from .env.
 
-Use the Supabase *connection pooler* string (IPv4). The Session pooler (port 5432)
-supports COPY and is recommended for this loader.
+Use a pooler / SSL connection string (Neon's default URL works as-is and supports COPY).
 
     python pipeline/s8_load_supabase.py
 """
@@ -13,6 +12,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -55,9 +55,9 @@ def _load_table(cur, table, df, cols, int_cols=(), float_cols=()):
 
 def main() -> None:
     load_dotenv(config.PROJECT_DIR / ".env")
-    dsn = os.getenv("SUPABASE_DB_URL")
+    dsn = os.getenv("DATABASE_URL") or os.getenv("SUPABASE_DB_URL")
     if not dsn:
-        log.error("SUPABASE_DB_URL not set in .env — aborting load.")
+        log.error("DATABASE_URL not set in .env — aborting load.")
         sys.exit(1)
 
     import psycopg
@@ -68,11 +68,13 @@ def main() -> None:
     qc = pd.read_csv(config.PROCESSED_DIR / "qc_metrics.csv")
     meta = json.loads((config.METADATA_DIR / "dataset_meta.json").read_text(encoding="utf-8"))
 
-    log.info("Connecting to Supabase ...")
+    log.info("Connecting to Postgres ...")
     with psycopg.connect(dsn, prepare_threshold=None, autocommit=False) as conn:
         with conn.cursor() as cur:
             log.info("Applying schema.sql ...")
-            for stmt in SCHEMA_SQL.read_text(encoding="utf-8").split(";"):
+            # strip -- line comments first so a ';' inside a comment can't split a statement
+            schema = re.sub(r"--[^\n]*", "", SCHEMA_SQL.read_text(encoding="utf-8"))
+            for stmt in schema.split(";"):
                 if stmt.strip():
                     cur.execute(stmt)
 
@@ -105,7 +107,7 @@ def main() -> None:
                  json.dumps(meta.get("qc"))),
             )
         conn.commit()
-    log.info("Supabase load complete.")
+    log.info("Postgres load complete.")
 
 
 if __name__ == "__main__":

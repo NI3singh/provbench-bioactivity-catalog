@@ -1,4 +1,4 @@
-"""ProvBench API — thin, read-only FastAPI over the curated Supabase tables,
+"""ProvBench API — thin, read-only FastAPI over the curated Postgres (Neon) tables,
 plus one guarded LLM extraction endpoint. No RDKit here (it ran offline)."""
 from __future__ import annotations
 

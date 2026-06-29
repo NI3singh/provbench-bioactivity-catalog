@@ -1,6 +1,6 @@
-"""Database access — a small psycopg3 connection pool against Supabase.
+"""Database access — a small psycopg3 connection pool against Postgres (Neon).
 
-Uses the Supabase connection pooler. prepare_threshold=None avoids the PgBouncer
+Uses a pooled SSL connection. prepare_threshold=None avoids the PgBouncer
 prepared-statement problem in transaction mode; autocommit=True keeps reads simple.
 """
 from __future__ import annotations
@@ -13,7 +13,7 @@ from psycopg_pool import ConnectionPool
 
 load_dotenv()
 
-DSN = os.getenv("SUPABASE_DB_URL", "")
+DSN = os.getenv("DATABASE_URL") or os.getenv("SUPABASE_DB_URL", "")
 DEFAULT_TARGET = os.getenv("DEFAULT_TARGET", "P00533")
 
 pool = ConnectionPool(

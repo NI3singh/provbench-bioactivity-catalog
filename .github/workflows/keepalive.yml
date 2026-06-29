@@ -1,4 +1,4 @@
-## Keeps the free-tier API warm and the Supabase project from auto-pausing.
+## Keeps the free-tier Render API warm (and any idle database resumed).
 ## Pings the API /health a few times a week. Set the API_URL repo variable
 ## (Settings -> Secrets and variables -> Actions -> Variables) to your Render API URL.
 name: keep-alive

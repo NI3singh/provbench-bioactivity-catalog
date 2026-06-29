@@ -1,7 +1,7 @@
 """run_all — orchestrate the full ProvBench pipeline (s1 -> s7, optionally s8/s9).
 
     python pipeline/run_all.py                 # extract..metadata (no DB/HF)
-    python pipeline/run_all.py --load          # also load Supabase (needs SUPABASE_DB_URL)
+    python pipeline/run_all.py --load          # also load Postgres/Neon (needs DATABASE_URL)
     python pipeline/run_all.py --load --publish # also publish to HuggingFace (needs HF_TOKEN)
     python pipeline/run_all.py --force-extract  # re-hit the source APIs
 """
@@ -43,7 +43,7 @@ def main() -> None:
     ]
     if do_load:
         import s8_load_supabase
-        steps.append(("s8 load Supabase", s8_load_supabase.main))
+        steps.append(("s8 load Postgres", s8_load_supabase.main))
     if do_publish:
         import s9_publish_hf
         steps.append(("s9 publish HuggingFace", s9_publish_hf.main))

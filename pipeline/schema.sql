@@ -1,4 +1,4 @@
--- ProvBench — Supabase/Postgres schema. Run by s8_load_supabase.py (drop + recreate).
+-- ProvBench — Postgres schema (Neon / Supabase / any). Run by s8 (drop + recreate).
 
 drop table if exists source_records cascade;
 drop table if exists consensus cascade;
@@ -47,7 +47,7 @@ create table source_records (
   document_id         text,
   source_url          text,
   raw_validity_comment text,
-  validity_flag       text,          -- our flag (null = OK); annotate-don't-delete
+  validity_flag       text,          -- our flag (null = OK), annotate-dont-delete
   flag_reason         text
 );
 

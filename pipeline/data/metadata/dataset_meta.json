@@ -1,7 +1,7 @@
 {
   "name": "provbench-egfr-bioactivity",
   "version": "1.0.0",
-  "created_at": "2026-06-26",
+  "created_at": "2026-06-29",
   "target": {
     "chembl_id": "CHEMBL203",
     "uniprot": "P00533",
@@ -23,8 +23,8 @@
   ],
   "license": "CC-BY-SA-3.0",
   "sha256_consensus": "0c0004e07546fd2d5819ea0bdc04f97c28237cde880fb95f150a18db7ee3aee4",
-  "hf_url": "https://huggingface.co/datasets/NI3singh/provbench-egfr-bioactivity",
-  "croissant_url": "https://huggingface.co/api/datasets/NI3singh/provbench-egfr-bioactivity/croissant",
+  "hf_url": "https://huggingface.co/datasets/Ni3SinghR/provbench-egfr-bioactivity",
+  "croissant_url": "https://huggingface.co/api/datasets/Ni3SinghR/provbench-egfr-bioactivity/croissant",
   "qc": {
     "minimal": {
       "n_pairs": 20398,

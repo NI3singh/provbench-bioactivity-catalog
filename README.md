@@ -7,7 +7,7 @@
 > measurement linked to its origin**, flag the suspect ones (never delete them), and **prove
 > with numbers** that the curation actually reduces noise.
 
-🔗 **Live demo:** `https://provbench-web.onrender.com` · 🤗 **Dataset:** [`NI3singh/provbench-egfr-bioactivity`](https://huggingface.co/datasets/NI3singh/provbench-egfr-bioactivity) · 📦 **Deploy:** [DEPLOYMENT.md](./DEPLOYMENT.md)
+🔗 **Live demo:** `https://provbench-web.onrender.com` · 🤗 **Dataset:** [`Ni3SinghR/provbench-egfr-bioactivity`](https://huggingface.co/datasets/Ni3SinghR/provbench-egfr-bioactivity) · 📦 **Deploy:** [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 *(Links go live after you run the one-time pipeline + deploy — see [DEPLOYMENT.md](./DEPLOYMENT.md).)*
 
@@ -67,7 +67,7 @@ so it runs comfortably on free tiers and deploys on the first try.
   OFFLINE (local, Python 3.13 + RDKit)                ONLINE (Render, free)
   ┌───────────────────────────────────────┐          ┌──────────────────────────────┐
   ChEMBL API ─► extract ─► standardize ─►  │   load   │  React static site  ──fetch──►│
-  (8 sources)   harmonize ─► flag ─► QC ─► ├─Supabase─┤  thin FastAPI  ──SQL──► Supabase
+  (8 sources)   harmonize ─► flag ─► QC ─► ├──Neon──┤    thin FastAPI  ──SQL──► Neon
                   └─► Croissant + PROV-O   │          │  (+ guarded Gemini /extract)  │
                   └─► HuggingFace dataset  │          └──────────────────────────────┘
   └───────────────────────────────────────┘
@@ -101,10 +101,10 @@ python -m venv .venv && .venv/Scripts/activate     # (source .venv/bin/activate 
 pip install -r pipeline/requirements.txt
 cp .env.example .env                                # add your SUPABASE_DB_URL (+ HF_TOKEN to publish)
 python pipeline/run_all.py                          # extract → … → metadata (no DB needed)
-python pipeline/run_all.py --load --publish         # also load Supabase + publish to HuggingFace
+python pipeline/run_all.py --load --publish         # also load Neon + publish to HuggingFace
 ```
 
-Full free deployment (Supabase + Render + HuggingFace): see **[DEPLOYMENT.md](./DEPLOYMENT.md)**.
+Full free deployment (Neon + Render + HuggingFace): see **[DEPLOYMENT.md](./DEPLOYMENT.md)**.
 
 ---
 
@@ -113,7 +113,7 @@ Full free deployment (Supabase + Render + HuggingFace): see **[DEPLOYMENT.md](./
 | Layer | Tech |
 |---|---|
 | Pipeline | Python 3.13, RDKit, ChEMBL REST, pandas, scipy, mlcroissant, prov |
-| Database | Supabase (Postgres) |
+| Database | Neon (Postgres) |
 | Backend | FastAPI, psycopg3, google-genai (Gemini) |
 | Frontend | React + Vite + TypeScript (hand-rolled CSS, no framework bloat) |
 | Deploy | Render (static site + web service), HuggingFace Datasets |
