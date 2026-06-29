@@ -99,7 +99,7 @@ pointed at messy free text.
 ```bash
 python -m venv .venv && .venv/Scripts/activate     # (source .venv/bin/activate on macOS/Linux)
 pip install -r pipeline/requirements.txt
-cp .env.example .env                                # add your SUPABASE_DB_URL (+ HF_TOKEN to publish)
+cp .env.example .env                                # add your neon_DB_URL (+ HF_TOKEN to publish)
 python pipeline/run_all.py                          # extract → … → metadata (no DB needed)
 python pipeline/run_all.py --load --publish         # also load Neon + publish to HuggingFace
 ```

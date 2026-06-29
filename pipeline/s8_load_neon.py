@@ -1,11 +1,11 @@
-"""s8 — load the curated tables into Postgres (Neon / Supabase / any).
+"""s8 — load the curated tables into Postgres (Neon / neon / any).
 
 Runs schema.sql (drop + recreate), then bulk-loads each processed CSV with COPY
 (fast and idempotent). Reads DATABASE_URL from .env.
 
 Use a pooler / SSL connection string (Neon's default URL works as-is and supports COPY).
 
-    python pipeline/s8_load_supabase.py
+    python pipeline/s8_load_neon.py
 """
 from __future__ import annotations
 
@@ -55,7 +55,7 @@ def _load_table(cur, table, df, cols, int_cols=(), float_cols=()):
 
 def main() -> None:
     load_dotenv(config.PROJECT_DIR / ".env")
-    dsn = os.getenv("DATABASE_URL") or os.getenv("SUPABASE_DB_URL")
+    dsn = os.getenv("DATABASE_URL") or os.getenv("neon_DB_URL")
     if not dsn:
         log.error("DATABASE_URL not set in .env — aborting load.")
         sys.exit(1)

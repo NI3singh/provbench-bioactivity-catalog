@@ -13,7 +13,7 @@ from psycopg_pool import ConnectionPool
 
 load_dotenv()
 
-DSN = os.getenv("DATABASE_URL") or os.getenv("SUPABASE_DB_URL", "")
+DSN = os.getenv("DATABASE_URL") or os.getenv("neon_DB_URL", "")
 DEFAULT_TARGET = os.getenv("DEFAULT_TARGET", "P00533")
 
 pool = ConnectionPool(

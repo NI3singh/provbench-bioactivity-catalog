@@ -42,8 +42,8 @@ def main() -> None:
         ("s7 emit metadata", s7_emit_metadata.main),
     ]
     if do_load:
-        import s8_load_supabase
-        steps.append(("s8 load Postgres", s8_load_supabase.main))
+        import s8_load_neon
+        steps.append(("s8 load Postgres", s8_load_neon.main))
     if do_publish:
         import s9_publish_hf
         steps.append(("s9 publish HuggingFace", s9_publish_hf.main))
