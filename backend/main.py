@@ -87,9 +87,8 @@ def home():
 # Self-contained mirror of the ProvBench frontend theme (frontend/src/index.css):
 #   - light "scientific data" palette (--bg #f6f7f9 … --ink #16202e, teal --accent
 #     #0f766e, --indigo #4338ca), system/Jakarta sans + JetBrains Mono.
-#   - a live canvas of drifting molecular / bioactivity glyphs (IC50, benzene rings,
-#     SMILES fragments, ChEMBL, τ …) with no mouse interaction — the chem analogue of the
-#     reference's LaTeX-glyph field.
+#   - a clean white-greenish background (soft teal/green orbs + faint mesh + grid);
+#     no drifting glyphs, no cursor interaction.
 #   - a provenance-graph logo mark (many sources -> one consensus node).
 #   - "Open the Explorer" + "Star on GitHub" CTAs and an animated star.
 # Dependency-free except one Google-fonts link, so it ships with the backend.
@@ -135,8 +134,6 @@ _LANDING_HTML = r"""<!DOCTYPE html>
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     position: relative; padding: 48px 24px;
   }
-
-  #glyphs { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
   .atmosphere { position: fixed; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
   .orb { position: absolute; border-radius: 50%; filter: blur(80px); will-change: transform; }
@@ -259,8 +256,6 @@ _LANDING_HTML = r"""<!DOCTYPE html>
 </head>
 <body class="grain">
 
-  <canvas id="glyphs" aria-hidden="true"></canvas>
-
   <div class="atmosphere" aria-hidden="true">
     <div class="orb orb-teal"></div>
     <div class="orb orb-indigo"></div>
@@ -330,96 +325,6 @@ _LANDING_HTML = r"""<!DOCTYPE html>
     </p>
 
   </main>
-
-  <script>
-  (function () {
-    var canvas = document.getElementById('glyphs');
-    if (!canvas) return;
-    var ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Molecular / bioactivity glyphs that drift in the background.
-    var GLYPHS = [
-      {t:'IC₅₀'}, {t:'Kᵢ'}, {t:'pIC50', m:1}, {t:'EGFR', m:1}, {t:'⬢'},
-      {t:'nM', m:1}, {t:'ChEMBL', m:1}, {t:'InChIKey', m:1}, {t:'c1ccccc1', m:1}, {t:'C(=O)', m:1},
-      {t:'N'}, {t:'O'}, {t:'τ'}, {t:'⟶'}, {t:'∑'}, {t:'Δ'},
-      {t:'P00533', m:1}, {t:'=O', m:1}, {t:'pKᵢ', m:1}, {t:'⬢—⬢'}
-    ];
-    var COLORS = ['#0f766e', '#0d9488', '#10b981', '#475569'];
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var rand = function (a, b) { return a + Math.random() * (b - a); };
-
-    var w = 0, h = 0, particles = [], raf = 0;
-
-    function makeParticles() {
-      var count = Math.min(100, Math.max(38, Math.round((w * h) / 21000)));
-      particles = [];
-      for (var i = 0; i < count; i++) {
-        var g = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-        var bvx = rand(-0.12, 0.12);
-        var bvy = rand(-0.18, -0.04);
-        particles.push({
-          x: rand(0, w), y: rand(0, h),
-          vx: bvx, vy: bvy, bvx: bvx, bvy: bvy,
-          char: g.t,
-          size: g.m ? rand(11, 18) : rand(18, 40),
-          alpha: rand(0.10, 0.24),
-          rot: rand(-0.3, 0.3), rotV: rand(-0.0006, 0.0006),
-          color: COLORS[Math.floor(Math.random() * COLORS.length)],
-          mono: !!g.m
-        });
-      }
-    }
-
-    function resize() {
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth; h = window.innerHeight;
-      canvas.width = Math.floor(w * dpr); canvas.height = Math.floor(h * dpr);
-      canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      makeParticles();
-    }
-
-    function draw(animate) {
-      ctx.clearRect(0, 0, w, h);
-      for (var i = 0; i < particles.length; i++) {
-        var p = particles[i];
-        if (animate) {
-          p.x += p.bvx; p.y += p.bvy; p.rot += p.rotV;   // gentle ambient drift only (no mouse)
-          var m = 64;
-          if (p.x < -m) p.x = w + m; else if (p.x > w + m) p.x = -m;
-          if (p.y < -m) p.y = h + m; else if (p.y > h + m) p.y = -m;
-        }
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = 'rgba(15,118,110,0.25)';
-        ctx.shadowBlur = 5;
-        ctx.font = p.size + 'px ' + (p.mono ? "'JetBrains Mono', monospace" : "'Plus Jakarta Sans', system-ui, sans-serif");
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(p.char, 0, 0);
-        ctx.restore();
-      }
-    }
-
-    function loop() { draw(true); raf = requestAnimationFrame(loop); }
-
-    window.addEventListener('resize', resize);
-    document.addEventListener('visibilitychange', function () {
-      cancelAnimationFrame(raf);
-      if (!document.hidden && !reduce) raf = requestAnimationFrame(loop);
-    });
-
-    resize();
-    if (reduce) { draw(false); } else { raf = requestAnimationFrame(loop); }
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(function () { if (reduce) draw(false); });
-    }
-  })();
-  </script>
 
 </body>
 </html>
