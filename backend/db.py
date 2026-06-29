@@ -11,7 +11,9 @@ from dotenv import load_dotenv
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 
-load_dotenv()
+# override=True so the project's .env wins over any stale GEMINI_API_KEY / DATABASE_URL
+# left in the shell or OS environment (python-dotenv does NOT override by default).
+load_dotenv(override=True)
 
 DSN = os.getenv("DATABASE_URL") or os.getenv("neon_DB_URL", "")
 DEFAULT_TARGET = os.getenv("DEFAULT_TARGET", "P00533")
