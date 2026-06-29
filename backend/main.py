@@ -88,7 +88,7 @@ def home():
 #   - light "scientific data" palette (--bg #f6f7f9 … --ink #16202e, teal --accent
 #     #0f766e, --indigo #4338ca), system/Jakarta sans + JetBrains Mono.
 #   - a live canvas of drifting molecular / bioactivity glyphs (IC50, benzene rings,
-#     SMILES fragments, ChEMBL, τ …) with mouse-repel — the chem analogue of the
+#     SMILES fragments, ChEMBL, τ …) with no mouse interaction — the chem analogue of the
 #     reference's LaTeX-glyph field.
 #   - a provenance-graph logo mark (many sources -> one consensus node).
 #   - "Open the Explorer" + "Star on GitHub" CTAs and an animated star.
@@ -98,7 +98,7 @@ _LANDING_HTML = r"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProvBench — API Live</title>
+<title>ProvBench API Live</title>
 <meta name="description" content="The ProvBench API is live. Open the Explorer to browse a provenance-preserving, multi-source EGFR bioactivity catalog.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23ffffff'/%3E%3Crect x='1.5' y='1.5' width='45' height='45' rx='12.5' fill='none' stroke='%230f766e' stroke-opacity='0.5' stroke-width='1.5'/%3E%3Cg stroke='%230f766e' stroke-opacity='0.55' stroke-width='1.6'%3E%3Cpath d='M15 14 31 24'/%3E%3Cpath d='M15 24h16'/%3E%3Cpath d='M15 34 31 24'/%3E%3C/g%3E%3Ccircle cx='15' cy='14' r='3.1' fill='%234338ca'/%3E%3Ccircle cx='15' cy='24' r='3.1' fill='%230f766e'/%3E%3Ccircle cx='15' cy='34' r='3.1' fill='%234338ca'/%3E%3Ccircle cx='31' cy='24' r='4.4' fill='%230f766e'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -141,7 +141,7 @@ _LANDING_HTML = r"""<!DOCTYPE html>
   .atmosphere { position: fixed; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
   .orb { position: absolute; border-radius: 50%; filter: blur(80px); will-change: transform; }
   .orb-teal   { width: 660px; height: 660px; background: rgba(15,118,110,0.10);  top: -200px; left: -220px; }
-  .orb-indigo { width: 520px; height: 520px; background: rgba(67,56,202,0.07);   bottom: -160px; right: -180px; }
+  .orb-indigo { width: 520px; height: 520px; background: rgba(16,185,129,0.06);  bottom: -160px; right: -180px; }
   .mesh { position: absolute; inset: 0; background: radial-gradient(60% 50% at 50% 42%, rgba(15,118,110,0.08), transparent 70%); }
   .grid {
     position: absolute; inset: 0; opacity: 0.5;
@@ -191,7 +191,7 @@ _LANDING_HTML = r"""<!DOCTYPE html>
     letter-spacing: -0.035em; color: var(--ink); text-wrap: balance; margin-bottom: 20px;
   }
   h1 .shimmer {
-    background: linear-gradient(90deg, #0f766e 0%, #4338ca 42%, #0d9488 60%, #0f766e 100%);
+    background: linear-gradient(90deg, #0f766e 0%, #10b981 42%, #0d9488 60%, #0f766e 100%);
     background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent; animation: shimmer 4.5s linear infinite;
   }
@@ -241,9 +241,9 @@ _LANDING_HTML = r"""<!DOCTYPE html>
                animation: star-spin 3.5s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(15,118,110,0.5)); }
   @keyframes star-spin {
     0%   { transform: scale(1)   rotate(0deg);   filter: drop-shadow(0 0 2px rgba(15,118,110,0.4)); }
-    25%  { transform: scale(1.35) rotate(72deg);  filter: drop-shadow(0 0 9px rgba(67,56,202,0.7)); }
+    25%  { transform: scale(1.35) rotate(72deg);  filter: drop-shadow(0 0 9px rgba(16,185,129,0.7)); }
     50%  { transform: scale(1)   rotate(144deg); filter: drop-shadow(0 0 2px rgba(15,118,110,0.4)); }
-    75%  { transform: scale(1.35) rotate(216deg); filter: drop-shadow(0 0 9px rgba(67,56,202,0.7)); }
+    75%  { transform: scale(1.35) rotate(216deg); filter: drop-shadow(0 0 9px rgba(16,185,129,0.7)); }
     100% { transform: scale(1)   rotate(360deg); filter: drop-shadow(0 0 2px rgba(15,118,110,0.4)); }
   }
 
@@ -300,7 +300,7 @@ _LANDING_HTML = r"""<!DOCTYPE html>
       the data &mdash; every value traced back to its source &mdash; and if it helps you, a
       <svg class="star-anim" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="star">
         <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#0d9488"/><stop offset="55%" stop-color="#0f766e"/><stop offset="100%" stop-color="#4338ca"/>
+          <stop offset="0%" stop-color="#10b981"/><stop offset="55%" stop-color="#0d9488"/><stop offset="100%" stop-color="#0f766e"/>
         </linearGradient></defs>
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="url(#sg)"/>
       </svg>
@@ -345,13 +345,11 @@ _LANDING_HTML = r"""<!DOCTYPE html>
       {t:'N'}, {t:'O'}, {t:'τ'}, {t:'⟶'}, {t:'∑'}, {t:'Δ'},
       {t:'P00533', m:1}, {t:'=O', m:1}, {t:'pKᵢ', m:1}, {t:'⬢—⬢'}
     ];
-    var COLORS = ['#0f766e', '#4338ca', '#0d9488', '#475569'];
+    var COLORS = ['#0f766e', '#0d9488', '#10b981', '#475569'];
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var rand = function (a, b) { return a + Math.random() * (b - a); };
 
     var w = 0, h = 0, particles = [], raf = 0;
-    var mouse = { x: -9999, y: -9999, active: false };
-    var RADIUS = 150;
 
     function makeParticles() {
       var count = Math.min(100, Math.max(38, Math.round((w * h) / 21000)));
@@ -387,17 +385,7 @@ _LANDING_HTML = r"""<!DOCTYPE html>
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
         if (animate) {
-          if (mouse.active) {
-            var dx = p.x - mouse.x, dy = p.y - mouse.y;
-            var dist = Math.hypot(dx, dy);
-            if (dist < RADIUS && dist > 0) {
-              var force = (1 - dist / RADIUS) * 0.7;
-              p.vx += (dx / dist) * force; p.vy += (dy / dist) * force;
-            }
-          }
-          p.vx += (p.bvx - p.vx) * 0.05;
-          p.vy += (p.bvy - p.vy) * 0.05;
-          p.x += p.vx; p.y += p.vy; p.rot += p.rotV;
+          p.x += p.bvx; p.y += p.bvy; p.rot += p.rotV;   // gentle ambient drift only (no mouse)
           var m = 64;
           if (p.x < -m) p.x = w + m; else if (p.x > w + m) p.x = -m;
           if (p.y < -m) p.y = h + m; else if (p.y > h + m) p.y = -m;
@@ -420,8 +408,6 @@ _LANDING_HTML = r"""<!DOCTYPE html>
     function loop() { draw(true); raf = requestAnimationFrame(loop); }
 
     window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
-    document.addEventListener('mouseleave', function () { mouse.active = false; });
     document.addEventListener('visibilitychange', function () {
       cancelAnimationFrame(raf);
       if (!document.hidden && !reduce) raf = requestAnimationFrame(loop);
